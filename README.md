@@ -116,26 +116,14 @@ to make this configuration changes. The account will logout after a
 period of time and it may be necessary to login again.
 
 We create a
-database called 'hello' to hold all the data need for the app.
+database called 'hello' to hold all the data needed for the app.
 The data for this app is the single JSON document that was entered.
-
-The rewrites field is an array of rules for translating nice looking URLs into
-couchdb internal URIs. There are two rules in this app. The first rule
-translates an empty URL to a URI call _show/index, while the
-second rule translates every URL to _show/404. The _show URI is a special
-couchdb element that invokes the corresponding Javascript function located
-in the shows field. Note that the catch-all asterik does not match an empty URL.
-
-The shows field is an array of functions that implement the apps (simple)
-functionality. The index function returns the app text, while the 404 function
-returns a missing document page.
-
-All the couchdb documents are
+All couchdb documents are
 primarily [JSON] data with some extensions for handling 'attachments'. 
 When Futon creates a new document it fills it in with some minimal
 JSON which has the _id field. All documents must have this
 field. The _ identifies it as a system field. The value of the _id
-is a UUID (Universally Unique IDentifier). This default JSON is not
+is a UUID (Universally Unique IDentifier). The default JSON is not
 appropriate for this app configuration.
 
 couchdb has a number of conventions on how to structure data within
@@ -152,11 +140,23 @@ _design/. Note the _ to identify a system feature and the trailing
 In this case, we create a design document called 'app'. Any other name
 could have been used. The fully qualified path to this design document
 is  /hello/_design/app. A single database can have many design documents.
-In addition, we added 2 rules for
-translating URLs into URIs. The structure of these rules is defined by
-couchdb. These rules translate an empty URL to a reference to
-index. You might notice that couchdb pretty prints the JSON
+You might notice that couchdb pretty prints the JSON
 documents when you save them.
+
+This app has 4 fields in its JSON document: _id and _rev which are system
+required fields; rewrites and shows which are special names used by couchapp
+to implement Web sites.
+
+The rewrites field is an array of rules for translating nice looking URLs into
+couchdb internal URIs. There are two rules in this app. The first rule
+translates an empty URL to a URI call _show/index, while the
+second rule translates every URL to _show/404. The _show URI is a special
+couchdb element that invokes the corresponding Javascript function located
+in the shows field. Note that the catch-all asterik does not match an empty URL.
+
+The shows field is an array of functions that implement the apps (simple)
+functionality. The index function returns the app text, while the 404 function
+returns a missing document page.
 
 Finally, the app is wired together by adding an entry to the vhosts
 configuration. This routes anything with the hostname 'hello' to
